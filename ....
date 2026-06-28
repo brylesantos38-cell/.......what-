@@ -1,0 +1,56 @@
+local Spawner = loadstring(game:HttpGet("https://raw.githubusercontent.com/RegularVynixu/DOORS-Entity-Spawner-V2/main/init.luau"))()
+
+    local entity = Spawner:Create({
+        Entity = {
+            Name = "The boiled one",
+            Asset = "104340749857449",
+            HeightOffset = 0
+        },
+        Lights = {
+            Flicker = { Enabled = true, Duration = 1 },
+            Shatter = true,
+            Repair = false
+        },
+        Earthquake = { Enabled = true },
+        CameraShake = {
+            Enabled = true,
+            Range = 100,
+            Values = {1.5, 20, 0.1, 1}
+        },
+        Movement = { Speed = 50, Delay = 2, Reversed = false },
+        Rebounding = { Enabled = false, Type = "Ambush", Min = 1, Max = 1, Delay = 2 },
+        Damage = { Enabled = true, Range = 40, Amount = 125 },
+        Crucifixion = { Enabled = true, Range = 40, Resist = false, Break = true },
+        Death = {
+            Type = "Guiding",
+            Hints = {".....", ".....", ".....", "???"},
+            Cause = "The boiled one"
+        }
+    })
+
+    entity:SetCallback("OnSpawned", function()
+        print("The boiled one has spawned")
+        
+        -- Continuous environmental threat hum
+        local ambientDistort = Instance.new("Sound", workspace)
+        ambientDistort.SoundId = "rbxassetid://127440401894310"
+        ambientDistort.Volume = 1.5
+        ambientDistort.Looped = true
+        ambientDistort:Play()
+        
+        -- Speech profile overlay
+        local dynamicSpeech = Instance.new("Sound", workspace)
+        dynamicSpeech.SoundId = "rbxassetid://121719103873398"
+        dynamicSpeech.Volume = 2
+        dynamicSpeech:Play()
+        
+        task.spawn(function()
+            entity:GetCallback("OnDespawned")
+            task.wait(1)
+            ambientDistort:Destroy()
+            dynamicSpeech:Destroy()
+        end)
+    end)
+
+    entity:Run(true)
+end
