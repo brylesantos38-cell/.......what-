@@ -1,0 +1,55 @@
+local Spawner = loadstring(game:HttpGet("https://raw.githubusercontent.com/RegularVynixu/DOORS-Entity-Spawner-V2/main/init.luau"))()
+
+    local entity = Spawner:Create({
+        Entity = {
+            Name = "The locust",
+            Asset = "85434241672934",
+            HeightOffset = 0
+        },
+        Lights = {
+            Flicker = { Enabled = true, Duration = 1 },
+            Shatter = true,
+            Repair = false
+        },
+        Earthquake = { Enabled = true },
+        CameraShake = {
+            Enabled = true,
+            Range = 100,
+            Values = {1.5, 20, 0.1, 1}
+        },
+        Movement = { Speed = 30, Delay = 2, Reversed = false },
+        Rebounding = { Enabled = false, Type = "Ambush", Min = 1, Max = 1, Delay = 2 },
+        Damage = { Enabled = true, Range = 40, Amount = 125 },
+        Crucifixion = { Enabled = true, Range = 40, Resist = false, Break = true },
+        Death = {
+            Type = "Guiding",
+            Hints = {"......", "I haven't encounter this", "I don't know that......", "Just hide"},
+            Cause = "The locust"
+        }
+    })
+
+    entity:SetCallback("OnSpawned", function()
+        print("The locust has spawned")
+        
+        -- Custom Theme Layering
+        local themeA = Instance.new("Sound", workspace)
+        themeA.SoundId = "rbxassetid://77108280805870"
+        themeA.Volume = 1.5
+        themeA:Play()
+        
+        local themeB = Instance.new("Sound", workspace)
+        themeB.SoundId = "rbxassetid://106232109709854"
+        themeB.Volume = 1.2
+        themeB.PlaybackSpeed = 0.65 -- Deliberate deceleration profile applied
+        themeB:Play()
+        
+        task.spawn(function()
+            entity:GetCallback("OnDespawned")
+            task.wait(1)
+            themeA:Destroy()
+            themeB:Destroy()
+        end)
+    end)
+
+    entity:Run(true)
+end
