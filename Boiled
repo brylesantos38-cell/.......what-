@@ -65,7 +65,7 @@ entity:SetCallback("OnSpawned", function()
     local ambientDistort = Instance.new("Sound", workspace)
     ambientDistort.SoundId = "rbxassetid://127440401894310"
     ambientDistort.Volume = 1.5
-    ambientDistort.Looped = true
+    ambientDistort.Looped = false 
     ambientDistort:Play()
     
     -- Speech profile overlay
